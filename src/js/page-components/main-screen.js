@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../styles/App.module.css'
+import TickMark from '../assets/svg/icons8-tick-box.svg'
 //import {write} from '../storage/storage'
 //import {div, StyleSheet, div, Div, Button, FlatList, divInput, div, Scrolldiv} from 'react-native';
 //import CheckBox from '@react-native-community/checkbox';
@@ -7,7 +8,10 @@ import styles from '../styles/App.module.css'
 //import {styles, addingTaskSection} from "../assets/styles.js"
 //import { AdMobBanner, PublisherBanner, setTestDeviceIDAsync } from 'expo-ads-admob';
 //import AsyncStorage from '@react-native-community/async-storage'
-//import {setStartID, setEndID, storeTask, clearTask} from '../global/LocalStorage.js'
+
+import {setStartID, setEndID, storeTask, clearTask} from '../storage/storage.js'
+
+//import fs from 'fs'
 
 //ca-app-pub-3088532579762761~4235259950 - app id
 //ca-app-pub-3088532579762761/1376344086 - banner ad id
@@ -145,7 +149,7 @@ function MainScreen({window, storedTasks}) {
         //console.log(newList)
         //console.log("task id:", task.id)
         setTaskList(taskList.filter(item => item != task))
-        //clearTask(task.id)
+        clearTask(task.id)
         //setStartID(taskList[0].id)
     }
 
@@ -191,7 +195,7 @@ function MainScreen({window, storedTasks}) {
             subTasks.push({subTask: item.subTasks[i], id: subTaskObjIndex++})
         }*/
         const subTasks = item.subTasks
-        //console.log(subTasks)
+        console.log(subTasks)
         if (subTasks != []) {
             return subTasks.map((subtask, key) => {
                 <SubTask item={subtask} key={key}/>
@@ -203,9 +207,9 @@ function MainScreen({window, storedTasks}) {
     }
 
     const Task = ({item}) => {
-        console.log(item)
+        //console.log(item)
         return(
-                <div className={item.completed ? styles.taskCompleted : styles.task} >
+                <div className={item.completed ? styles.task : styles.task} >
                     <div>
                         <div className={styles.taskTitle} onClick={() => setEditingTask( (editingTask == item.id) ? -1 : item.id )}>
                             {item.title}    
@@ -214,6 +218,7 @@ function MainScreen({window, storedTasks}) {
                                             forceReRender(!frr)}}>
                             Completed    
                         </div>
+                        {item.completed ? <img className={styles.tickbox} src={TickMark}/> : <div/>}
                     </div>
                     <SubTaskSection item={item}/>
                     {(item.date != false) ? <div className={styles.extraDesc}>{"Due date: " + dateToString(item.date)}</div> : <div/>}
@@ -239,7 +244,7 @@ function MainScreen({window, storedTasks}) {
         
         newTaskList.push(newTask)
         setTaskList(newTaskList)
-        //storeTask(newTask)
+        storeTask(newTask)
         setEndID(endID + 1)    
         setTasksAdded(tasksAdded + 1)
         setAddingTask(false)
@@ -258,7 +263,7 @@ function MainScreen({window, storedTasks}) {
     }
 
     const setTaskCompleted = (task) => {
-        console.log("setTaskCompleted")
+        //console.log("setTaskCompleted")
         let newTaskList = taskList
         //console.log(`endID: ${endID}`)
         
@@ -266,7 +271,7 @@ function MainScreen({window, storedTasks}) {
 
         for (let i = 0; i < newTaskList.length; i++) {
             if (task.id === newTaskList[i].id) {
-                console.log(newTaskList[i].completed)
+                //console.log(newTaskList[i].completed)
                 newTaskList[i].completed = !(newTaskList[i].completed) 
             }
         }

@@ -1,3 +1,4 @@
+var webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -24,6 +25,17 @@ module.exports = {
         }
       },
       {
+        test: /\.(png|jp(e*)g|svg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'images/[hash]-[name].[ext]',
+            },
+          },
+        ],
+      },
+      {
         test: [/\.s[ac]ss$/i, /\.css$/i],
         use: [
           // Creates `style` nodes from JS strings
@@ -43,4 +55,9 @@ module.exports = {
     filename: 'app.js',
     path: path.resolve(__dirname, 'build', 'js'),
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      
+    })
+  ]
 };
