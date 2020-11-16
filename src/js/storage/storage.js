@@ -48,7 +48,7 @@ const storage = {
             },
             redirect: 'follow', // manual, *follow, error
             referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        }).then(res => res.json)
+        }).then(res => res)
     },
     getAllData: () => {
         console.log("get all data called")
@@ -72,6 +72,9 @@ const storage = {
 //####################################################################################################################
 //METHODS CONVERTED FROM ASYNC
 //THESE METHODS ARE FOR USE GLOBALLY
+let GLOBAL_tasks = [];
+
+
 const setID = async (key, id) => {
     try {
         const IDstr = id.toString() 
@@ -126,14 +129,17 @@ const storeTask = async (task) => {
 const clearTask = async (id) => {
     try {
         const key = `@task:${id}` 
-        console.log("key ", key)
-        //await AsyncStorage.removeItem(key)
-        const res = await storage.removeItem(key)
-        //let startID = parseInt(await AsyncStorage.getItem("@startID"))
-        //let endID = parseInt(await AsyncStorage.getItem("@endID"))
-        let startID = parseInt(await storage.getItem("@startID"))
-        let endID = parseInt(await storage.getItem("@endID"))
+        console.log(`key ${key}`)
 
+        const res = await storage.removeItem(key)
+        GLOBAL_tasks = GLOBAL_tasks.filter(task => task.id !== id)
+        console.log(GLOBAL_tasks)
+        console.log(res)
+        //at this point the task is removed from the json file
+        //now the start and endIDs are changed on the "frontend"
+        let startID = parseInt((await storage.getItem("@startID")).data)
+        let endID = parseInt((await storage.getItem("@endID")).data)
+        
         if (id == startID) { //change StartID
             console.log("clearTask: id === startID ")
             console.log(`startID ${startID}, endID ${endID}`)
@@ -157,10 +163,12 @@ const clearTask = async (id) => {
         }  
         
         if (id == endID) { //change endID
-            for (let i = endID - 1; startID <= i; i--) {
-                let task = await storage.getItem(`@task:${i}`)
-                task = task.data
+            console.log("endID changing")
+            for (let i = GLOBAL_tasks.length; 0 <= i; i--) {
+                let task = GLOBAL_tasks[i].id
+                console.log(task)
                 if (task !== null) {
+                    console.log(task)
                     //const task = JSON.parse(taskstr)
                     setEndID(task.id)
                     endID = task.id
@@ -178,63 +186,7 @@ const clearTask = async (id) => {
         console.log(e)
       }
 }
-/*
-const getAllTasks = async () => {
-    console.log("getAllTasksCalled")
-    try {
-        let startID = parseInt((await storage.getItem('@startID')).data)
-        let endID = parseInt((await storage.getItem('@endID')).data)
-        let initTasks = []; //local list
-        console.log(startID)
-        console.log(endID)
-        if (typeof startID !== "number") {
-            setStartID(0)
-        } else {
-            if (typeof endID !== "number") {
-                setEndID(0)
-            } else {
-  
-                console.log("start-end ids: ", startID, endID)
-                
-                for (let i = startID; i <= endID; i++) {
-                    console.log(`@task:${i}`)
-                    
-                    try {
-                        let key = `@task:${i}`
-                        let jsonValue = await storage.getItem(key)
-                        jsonValue = jsonValue.data
-                        console.log("jsonvalue retrieved", jsonValue)
-  
-                        if (typeof jsonValue === "object" && jsonValue != null) { 
-                            console.log("jsonValue: ", jsonValue)
-                            if (jsonValue.date !== false) {
-                              jsonValue.date = extractDate(jsonValue.date)
-                            }
-  
-                            if (jsonValue.time !== false) {
-                              jsonValue.time = extractDate(jsonValue.time)
-                            }
-  
-                            initTasks.push(jsonValue)
-                        }
-  
-                    } catch(e) {
-                        console.log(e)
-                    }
-                    
-                }
-  
-                return initTasks;
-            }
-            
-          }
-  
-    } catch(e) {
-        // error reading value
-        console.log(e)
-        return []
-    }
-  }*/
+
   const getAllTasks = async () => {
     const data = await storage.getAllData(); // should return obj of all data
     console.log(data)
@@ -256,7 +208,7 @@ const getAllTasks = async () => {
             initTasks.push(tasks[id])
         })
     }
-    
+    GLOBAL_tasks = initTasks;
     return initTasks;
 
   }

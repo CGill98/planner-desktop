@@ -15,15 +15,18 @@ const fileExists = (file) => {
 
 let dataobj = {
     data : fileExists(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : {},
-    readFile: () => {this.data = JSON.parse(fs.readFileSync(file, 'utf8'))},
+    readFile: () => {dataobj.data = JSON.parse(fs.readFileSync(file, 'utf8'))},
     replaceFile: () => {
         //deletefile
         //rewrite file
-        writeItem({key: "@startID", data: this.data.startID}, false)
-        writeItem({key: "@endID", data: this.data.endID})
-        Object.keys(this.data.tasks).map((id) => {
-            console.log(this.data.tasks[id])
-            writeItem({key: id, data: this.data.tasks[id]})
+        console.log("dataobj.data:")
+        console.log(dataobj.data)
+        const {startID, endID, tasks} = dataobj.data
+        writeItem({key: "@startID", data: startID}, false)
+        writeItem({key: "@endID", data: endID})
+        Object.keys(tasks).map((id) => {
+            console.log(tasks[id])
+            writeItem({key: id, data: tasks[id]})
         })
 
     }
