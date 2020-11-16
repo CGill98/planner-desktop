@@ -4,6 +4,7 @@
 
 const storage = {
     getItem: (key) => {
+        console.log(`getting: ${key}`)
         return fetch(`http://localhost:3050/getItem/${key}`, {
             method: 'GET', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
@@ -34,6 +35,8 @@ const storage = {
         }) 
     },
     removeItem: (key) => {
+        console.log("remove item called")
+        console.log("removing " + key)
         fetch(`http://localhost:3050/deleteItem/${key}`, {
             method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
@@ -45,10 +48,11 @@ const storage = {
             },
             redirect: 'follow', // manual, *follow, error
             referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        }) 
+        }).then(res => res.json)
     },
     getAllData: () => {
-        return fetch(`http://localhost:3050/getAlldata`, {
+        console.log("get all data called")
+        return fetch(`http://localhost:3050/getAllData`, {
             method: 'GET', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -100,7 +104,9 @@ const storeTask = async (task) => {
         storage.setItem(key, jsonValue)
         setEndID(task.id)
         //const startID = parseInt(await AsyncStorage.getItem("@startID")) 
-        const startID = parseInt(await storage.getItem("@startID")) 
+        let startID = await storage.getItem("@startID")
+        console.log(startID)
+        startID = parseInt(startID.data)
         console.log(startID)
         if (isNaN(startID) || typeof startID !== "number") {
             
@@ -122,7 +128,7 @@ const clearTask = async (id) => {
         const key = `@task:${id}` 
         console.log("key ", key)
         //await AsyncStorage.removeItem(key)
-        storage.removeItem(key)
+        const res = await storage.removeItem(key)
         //let startID = parseInt(await AsyncStorage.getItem("@startID"))
         //let endID = parseInt(await AsyncStorage.getItem("@endID"))
         let startID = parseInt(await storage.getItem("@startID"))

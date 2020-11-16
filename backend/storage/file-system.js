@@ -33,6 +33,8 @@ let dataobj = {
 
 
 const writeItem = (item, edit = true) => {
+    console.log("writeItem called")
+    console.log(item)
     //item '{"key":"@task:2","data":{"id":2,"title":"esdse","subTasks":[],"date":false,"time":false}}'
     let itemJSON;
     if (typeof item === 'string') {
@@ -95,13 +97,13 @@ const writeItem = (item, edit = true) => {
 const readItem = (key) => {
     console.log("readItem(key) called, (file-system.js)")
     console.log(key)
-    if (dataobj.data !== {}) {
+    if (dataobj.data != {}) {
         console.log(dataobj)
         if (key === "@endID") {
-            console.log(dataobj.data[key])
+            console.log(dataobj.data.endID)
             return {data: dataobj.data.endID}
         } else if (key === "@startID") {
-            console.log(dataobj.data[key])
+            console.log(dataobj.data.startID)
             return {data: dataobj.data.startID}
         } else {
             console.log(dataobj.data.tasks[key])
@@ -130,6 +132,8 @@ const deleteItem = (key) => {
 }
 
 const getAllData = () => {
+    console.log("getAllDataCalled")
+    console.log(dataobj.data)
     if (dataobj.data === {} && fileExists(file)) {
         dataobj.readFile()
     }

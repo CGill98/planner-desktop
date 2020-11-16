@@ -20,7 +20,8 @@ app.post('/setItem/:item', function (req, res) {
     fs.writeItem(req.params.item)
 });
 
-app.get('/getItem/:key', function (req, res) {
+//@startID, @endID and @taskID work
+app.get('/getItem/:key', function (req, res) { 
     console.log(req.params)
     res.json(fs.readItem(req.params.key))
 });
@@ -32,8 +33,10 @@ app.get('/getAllData', function (req, res) {
 
 
 app.delete('/deleteItem/:key', function (req, res) {
+    console.log("delete item called")
     const key = req.params.key;
     fs.deleteItem(key)
+    res.send("Item DELETE RES :)")
 })
 
 

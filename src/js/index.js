@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import ReactDom from 'react-dom'
 import MainScreen from './page-components/main-screen'
 import EditScreen from './page-components/EditScreen'
@@ -7,9 +7,14 @@ import styles from './styles/App.module.css'
 
 let GLOBAL_storedTasks = [];
 
-const LoadScreen = ({startAsync, onFinish}) => {
+const LoadScreen = ({startAsync}) => {
+    console.log("Loadscreen")
+    useEffect(()=>{
+        startAsync()
+    })
+    /*
     startAsync()
-        .then(()=>{onFinish()})
+        .then(()=>})*/
     return(
         <div className={styles.background}>
 
@@ -21,11 +26,14 @@ const App = () => {
     const [init, setInit] = React.useState(false)
     const [storedTasks, setStoredTasks] = React.useState([])
 
+    
     async function initialise() {
         //await clearAll()
     
         //console.log("initialise")
         GLOBAL_storedTasks = await getAllTasks()
+        setInit(true)
+        setStoredTasks(GLOBAL_storedTasks)
         
       }
 
@@ -40,10 +48,7 @@ const App = () => {
     } else {
         return(
         <LoadScreen
-            startAsync={initialise}
-            onFinish={()=>{
-            setStoredTasks(GLOBAL_storedTasks)
-            setInit(true)}}/>
+            startAsync={initialise}/>
         )
     }
 }
