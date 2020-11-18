@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../styles/App.module.css'
-import TickMark from '../assets/svg/icons8-tick-box.svg'
+import TickMark from '../assets/tick-box-98.png'
 //import {write} from '../storage/storage'
 //import {div, StyleSheet, div, Div, Button, FlatList, divInput, div, Scrolldiv} from 'react-native';
 //import CheckBox from '@react-native-community/checkbox';
@@ -9,7 +9,7 @@ import TickMark from '../assets/svg/icons8-tick-box.svg'
 //import { AdMobBanner, PublisherBanner, setTestDeviceIDAsync } from 'expo-ads-admob';
 //import AsyncStorage from '@react-native-community/async-storage'
 
-import {setStartID, setEndID, storeTask, clearTask} from '../storage/storage.js'
+import {setStartID, setEndID, storeTask, clearTask, updateTask} from '../storage/storage.js'
 
 //import fs from 'fs'
 
@@ -206,23 +206,23 @@ function MainScreen({window, storedTasks}) {
         }
     }
 
-    const Task = ({item}) => {
-        //console.log(item)
+    const Task = ({item, taskNo}) => {
+        console.log(taskNo)
         return(
-                <div className={item.completed ? styles.task : styles.task} >
-                    <div>
+                <div className={taskNo % 2 === 1 ? styles.task : styles.taskGrey} >
+                    <div className={styles.taskTopContainer}>
                         <div className={styles.taskTitle} onClick={() => setEditingTask( (editingTask == item.id) ? -1 : item.id )}>
                             {item.title}    
                         </div>
-                        <div className={styles.darkButton} onClick={()=> {setTaskCompleted(item)
-                                            forceReRender(!frr)}}>
-                            Completed    
+                        <div className={item.completed ? styles.darkButton: styles.lightButton} onClick={()=> {setTaskCompleted(item); forceReRender(!frr)}}>
+                            {item.completed ? 'Completed': 'Not Completed'}
                         </div>
-                        {item.completed ? <img className={styles.tickbox} src={TickMark}/> : <div/>}
                     </div>
                     <SubTaskSection item={item}/>
-                    {(item.date != false) ? <div className={styles.extraDesc}>{"Due date: " + dateToString(item.date)}</div> : <div/>}
-                    {(item.time != false) ? <div className={styles.extraDesc}>{"Due date: " + timeToString(item.time)}</div> : <div/>}
+                    <div className={styles.dateContainer}>
+                        {item.date && <div className={styles.extraDesc}>{"Due date: " + dateToString(item.date)}</div>}
+                        {item.time && <div className={styles.extraDesc}>{"Due date: " + timeToString(item.time)}</div>}
+                    </div>
                     {(editingTask == item.id) ? <EditTaskdiv task={item}/> : <div/>}
                 </div>)
     }
@@ -240,8 +240,9 @@ function MainScreen({window, storedTasks}) {
         //console.log(`endID: ${endID}`)
         
         //console.log(`after endID: ${endID}`)
-        let newTask = {id: endID + 1, title: taskTitle, subTasks: addingSubTasks, date: taskDate, time: taskTime}
         
+        let newTask = {id: endID + 1, title: taskTitle, subTasks: addingSubTasks, date: taskDate, time: taskTime}
+        console.log(newTask)
         newTaskList.push(newTask)
         setTaskList(newTaskList)
         storeTask(newTask)
@@ -277,6 +278,7 @@ function MainScreen({window, storedTasks}) {
         }
         
         setTaskList(newTaskList)
+        updateTask(task) //updateTask in the backend
         
         /*
         setSubTaskCheckMap(newSubTaskCheckMap)
@@ -325,9 +327,11 @@ function MainScreen({window, storedTasks}) {
             return(<div/>)
         }
     }*/
-
+    
     const AddTaskSection = (props) => {
         //set the props height
+         
+
         if (addingTask) {
             return(
                 <div id="adding-task-section" className={styles.addingTaskSection}>
@@ -363,12 +367,15 @@ function MainScreen({window, storedTasks}) {
                             <input type="time" value={addingTaskTime} className={styles.addingTaskDateInput}
                                 data-date-format='HH-mm'
                                 onChange={(event)=>{
+                                console.log(event.target.value)
+                                setTaskTime(event.target.value)
                                 setAddingTaskTime(event.target.value)
                             }}/>
 
                             <input type="date" value={addingTaskDate} className={styles.addingTaskDateInput}
                                  data-date-format='yyyy-MM-dd'
                                  onChange={(event)=>{
+                                    setTaskDate(event.target.value)
                                     setAddingTaskDate(event.target.value)
                                 }}/>
                         </div>
@@ -388,7 +395,7 @@ function MainScreen({window, storedTasks}) {
         }
     }
 
-
+    let taskCounter = 0;
     return(
         <div id="main-screen" className={styles.background}>
             <div id="content" className={styles.content}>
@@ -407,9 +414,14 @@ function MainScreen({window, storedTasks}) {
                         <div className={styles.taskBox}>
                             
                             {
+
                             taskList.map((task, key) => {
                                 return (<Task 
                                             key={key}
+                                            taskNo={(function() {
+                                                        taskCounter++; 
+                                                        return taskCounter;
+                                                        })()}
                                             item={task}/>)
                             })
                             }

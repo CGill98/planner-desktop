@@ -24,10 +24,18 @@
     width: 100%;
     height: auto;
 };
+.centerImage {
+    display:inline-block;
+    justify-content:center; 
+    align-items:center;    
+    height:60px;
+    width:60px;
+    position: relative;
+    bottom: 0px;
+};
 .tickbox {
-    width: auto;
-    height: 65px;
-    margin: auto;
+    max-width:100%;
+    max-height:100%;
 };
 .NavPanels {
     width: 100%;
@@ -84,9 +92,20 @@
     height: 15%;
     font-size: 20px;
     background-color: white;
-    border-top-color:1px solid black; 
+    /*border-top: 1px solid black; */
     font-family: sans-serif;
     margin-top: 0%;
+    display: block;
+};
+.taskGrey {
+    padding: 1%;
+    height: 15%;
+    font-size: 20px;
+    background-color: #eaeaea;
+    /*border-top: 1px solid black; */
+    font-family: sans-serif;
+    margin-top: 0%;
+    display: block;
 };
 .taskCompleted {
     padding: 1%;
@@ -97,6 +116,11 @@
     font-family: sans-serif;
     margin-top: 0%;
     cursor: pointer;
+};
+.taskTopContainer {
+    height: 100%;
+    width: 100%;
+    display: block;
 };
 .taskTitle {
     font-size: 30px;
@@ -123,8 +147,27 @@
     border-radius: 5px;
     border-bottom: 5px solid #091225;
 };
+.lightButton {
+    font-size: 30px;
+    background-color: #ddd;
+    color: black;
+    display: inline-block;
+    padding: 5px;
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: auto;
+
+    border-radius: 5px;
+    border-bottom: 5px solid #091225;
+};
+.dateContainer {
+    align-items: center;
+    width: 25%;
+    margin-left: 8%;
+};
 .extraDesc {
-    font-size: 18;
+    font-size: 18px;
+
 };
 /*child of navPanelsAdding*/
 .addingTaskSection { 

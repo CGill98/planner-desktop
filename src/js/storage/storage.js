@@ -94,6 +94,10 @@ const setStartID = async (id) => {
 const setEndID = async (id) => {
     setID("@endID", id)
 }
+/*
+function extractDate(datestr) {
+    return new Date(Date.parse(datestr))
+  }*/
 
 //store an object as a string, (use to store individual tasks)
 const storeTask = async (task) => {
@@ -196,13 +200,14 @@ const clearTask = async (id) => {
     console.log(tasks)
     if (tasks) {
         Object.keys(tasks).map((id) => {
+            /*
             if (tasks[id].date) {
                 tasks[id].date = extractDate(tasks[id].date)
             }
 
             if (tasks[id].time) {
                 tasks[id].time = extractDate(tasks[id].time)
-            }   
+            }   */
             console.log(tasks[id])
 
             initTasks.push(tasks[id])
@@ -213,5 +218,10 @@ const clearTask = async (id) => {
 
   }
 
+const updateTask = async (task) => {
+    const key = `@task:${task.id}`
+    storage.setItem(key, task)
+} 
+
 //NOTE THERE IS ARE LOCAL GET ALL TASK FUNCTIONS THAT WORK ALONG THESE
-export {setStartID, setEndID, storeTask, clearTask, getAllTasks};
+export {setStartID, setEndID, storeTask, clearTask, getAllTasks, updateTask};
