@@ -10,7 +10,7 @@ import TickMark from '../assets/tick-box-98.png'
 //import AsyncStorage from '@react-native-community/async-storage'
 
 import {setStartID, setEndID, storeTask, clearTask, updateTask} from '../storage/storage.js'
-
+import {Link} from "react-router-dom";
 //import fs from 'fs'
 
 //ca-app-pub-3088532579762761~4235259950 - app id
@@ -158,9 +158,9 @@ function MainScreen({window, storedTasks}) {
     const EditTaskdiv = ({task}) => {
         return(
             <div>
-                <div style={{margin: '5px'}} className={styles.darkButton} onClick={()=>{}}>
-                    Edit Task
-                </div>
+                <Link style={{margin: '5px'}} className={styles.darkButton} to='/EditScreen'>
+                    Edit Screen
+                </Link>
                 <div className={styles.darkButton} onClick={()=>deleteTask(task)}>
                     Delete Task
                 </div>

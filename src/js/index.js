@@ -4,6 +4,14 @@ import MainScreen from './page-components/main-screen'
 import EditScreen from './page-components/EditScreen'
 import {getAllTasks} from './storage/storage.js'
 import styles from './styles/App.module.css'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    BrowserRouter
+  } from "react-router-dom";
+
 
 let GLOBAL_storedTasks = [];
 
@@ -41,9 +49,20 @@ const App = () => {
         <EditScreen task={{title:"something", id: 1, completed: false, date:false, time: false, subTasks: []}}/>
         
         */}
+
+
     if (init) {
         return(
-            <MainScreen storedTasks={GLOBAL_storedTasks}/>
+            <Router>
+                <Switch>
+                    <Route path="/">
+                        <MainScreen storedTasks={GLOBAL_storedTasks}/>
+                    </Route>
+                    <Route path="/EditScreen">
+                        <EditScreen task={{title:"something", id: 1, completed: false, date:false, time: false, subTasks: []}}/>
+                    </Route>
+                </Switch>
+            </Router>
         )
     } else {
         return(
@@ -53,4 +72,6 @@ const App = () => {
     }
 }
 
-ReactDom.render(<App/>, document.getElementById('root'))
+ReactDom.render(
+    <App/>
+, document.getElementById('root'))
