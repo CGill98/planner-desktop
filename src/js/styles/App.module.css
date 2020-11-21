@@ -16,6 +16,25 @@
     font-family: sans-serif;
     width: 100%;
     text-align: center;
+    margin: 0px;
+    font-size: 25px;
+};
+.label {
+    color: #FFF;
+    font-family: sans-serif;
+    width: 100%;
+    text-align: center;
+    margin: 0px;
+    font-size: 18px;
+};
+.schedule {
+    height: 150px;
+};
+.schedule select {
+    position: relative;
+    display: inline-block;
+    top: 0px;
+    padding: 5px;
 };
 .ad {
     width: 100%; background-color:#212437; align-self: flex-end;

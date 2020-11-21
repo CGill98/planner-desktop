@@ -4,13 +4,6 @@ import MainScreen from './page-components/main-screen'
 import EditScreen from './page-components/EditScreen'
 import {getAllTasks} from './storage/storage.js'
 import styles from './styles/App.module.css'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    BrowserRouter
-  } from "react-router-dom";
 
 
 let GLOBAL_storedTasks = [];
@@ -33,7 +26,7 @@ const LoadScreen = ({startAsync}) => {
 const App = () => {
     const [init, setInit] = React.useState(false)
     const [storedTasks, setStoredTasks] = React.useState([])
-
+    const [screen, setScreen] = React.useState('EditScreen')
     
     async function initialise() {
         //await clearAll()
@@ -52,18 +45,15 @@ const App = () => {
 
 
     if (init) {
-        return(
-            <Router>
-                <Switch>
-                    <Route path="/">
-                        <MainScreen storedTasks={GLOBAL_storedTasks}/>
-                    </Route>
-                    <Route path="/EditScreen">
-                        <EditScreen task={{title:"something", id: 1, completed: false, date:false, time: false, subTasks: []}}/>
-                    </Route>
-                </Switch>
-            </Router>
-        )
+        
+        switch (screen) {
+            case "MainScreen":
+                return <MainScreen storedTasks={GLOBAL_storedTasks} setScreen={setScreen}/>
+            case "EditScreen":
+                return <EditScreen task={{title:"something", id: 1, completed: false, date:false, time: false, subTasks: []}}
+                                   setScreen={setScreen}/>
+        }
+              
     } else {
         return(
         <LoadScreen

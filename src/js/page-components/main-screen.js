@@ -10,7 +10,6 @@ import TickMark from '../assets/tick-box-98.png'
 //import AsyncStorage from '@react-native-community/async-storage'
 
 import {setStartID, setEndID, storeTask, clearTask, updateTask} from '../storage/storage.js'
-import {Link} from "react-router-dom";
 //import fs from 'fs'
 
 //ca-app-pub-3088532579762761~4235259950 - app id
@@ -89,11 +88,14 @@ const getAllTasks = async () => {
   
   
 
-function MainScreen({window, storedTasks}) {
+function MainScreen({window, storedTasks, setScreen}) {
     //testAds()  
     //setTimeout(()=>{console.log("timed out")}, 400)  
     //console.log("stored tasks ", storedTasks)
     //replace below with getalltask
+
+
+
     const [frr, forceReRender] = useState(true)
 
 
@@ -121,6 +123,7 @@ function MainScreen({window, storedTasks}) {
     //console.log(`type of endID: ${typeof endID}`)
     //console.log("initTasks length", initTasks.length)
     //console.log("tasklist", taskList)a
+
     function timeToString(time) {
         if (time) { //if date has been set
             //console.log(time)
@@ -158,9 +161,9 @@ function MainScreen({window, storedTasks}) {
     const EditTaskdiv = ({task}) => {
         return(
             <div>
-                <Link style={{margin: '5px'}} className={styles.darkButton} to='/EditScreen'>
+                <div style={{margin: '5px'}} className={styles.darkButton} onClick={()=>setScreen('EditScreen')}>
                     Edit Screen
-                </Link>
+                </div>
                 <div className={styles.darkButton} onClick={()=>deleteTask(task)}>
                     Delete Task
                 </div>
