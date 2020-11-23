@@ -26,7 +26,7 @@ const LoadScreen = ({startAsync}) => {
 const App = () => {
     const [init, setInit] = React.useState(false)
     const [storedTasks, setStoredTasks] = React.useState([])
-    const [screen, setScreen] = React.useState('EditScreen')
+    const [screen, setScreen] = React.useState('MainScreen')
     
     async function initialise() {
         //await clearAll()

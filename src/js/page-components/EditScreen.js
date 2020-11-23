@@ -100,16 +100,25 @@ const EditScreen = ({task}) => {
                         </div>
                     </div>
                     <div className={styles.h2}>Make the task Repeat</div>
-                <label className={styles.label}>Repetion Type</label>
+                
                 <div className={styles.schedule}>
-                    <select id="schedule" name="schedule" size="3" value={schedule} onChange={(event)=>{
-                        setSchedule(event.target.value)
-                        }}>
-                        <option value={0}>Weekday</option>
-                        <option value={1}>Weekend</option>
-                        <option value={2}>Specific Day of the Week</option>
-                    </select>
-                    {schedule == 2 && <DayCheckBoxes/>}
+                    {/*<label className={styles.label}>Repetion Type</label>*/}
+                    <div className={styles.scheduleSelect}>
+                        <select id="schedule" name="schedule" size="3" value={schedule} onChange={(event)=>{
+                            setSchedule(event.target.value)
+                            console.log(schedule)
+                            }}>
+                            <option value={0}>Weekday</option>
+                            <option value={1}>Weekend</option>
+                            <option value={2}>Specific Day of the Week</option>
+                        </select>
+                    </div>
+                    {schedule == 2 && 
+                    <>
+                        <div className={styles.scheduleSelect}>
+                            <DayCheckBoxes/>
+                        </div>
+                    </>}
                 </div>
                 <input type="submit" value="submit" className={styles.darkButton}/>
             </form>

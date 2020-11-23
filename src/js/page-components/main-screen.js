@@ -124,6 +124,20 @@ function MainScreen({window, storedTasks, setScreen}) {
     //console.log("initTasks length", initTasks.length)
     //console.log("tasklist", taskList)a
 
+    function scheduleToString(schedule) {
+        switch(schedule) {
+            case 0:
+                return "Weekday";
+            case 1:
+                return "weekend";
+            default:
+                const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                let str = `To do on: `
+                schedule.forEach(d => str += days[parseInt(d)] + ' ')
+                return str
+        }
+    }
+
     function timeToString(time) {
         if (time) { //if date has been set
             //console.log(time)
@@ -223,7 +237,11 @@ function MainScreen({window, storedTasks, setScreen}) {
                     </div>
                     <SubTaskSection item={item}/>
                     <div className={styles.dateContainer}>
-                        {item.date && <div className={styles.extraDesc}>{"Due date: " + dateToString(item.date)}</div>}
+                        {item.schedule ? 
+                            <div className={styles.extraDesc}>{scheduleToString(item.schedule)}</div> :
+                            item.date && <div className={styles.extraDesc}>{"Due date: " + dateToString(item.date)}</div>
+                        }
+                        {/*item.date && <div className={styles.extraDesc}>{"Due date: " + dateToString(item.date)}</div>*/}
                         {item.time && <div className={styles.extraDesc}>{"Due date: " + timeToString(item.time)}</div>}
                     </div>
                     {(editingTask == item.id) ? <EditTaskdiv task={item}/> : <div/>}
@@ -417,7 +435,7 @@ function MainScreen({window, storedTasks, setScreen}) {
                         <div className={styles.taskBox}>
                             
                             {
-
+                            /*
                             taskList.map((task, key) => {
                                 return (<Task 
                                             key={key}
@@ -427,7 +445,12 @@ function MainScreen({window, storedTasks, setScreen}) {
                                                         })()}
                                             item={task}/>)
                             })
+                            */
                             }
+                            {
+                            <Task item={{title:"test schedule", subTasks: [], completed: false, schedule: ["0", "1", "2", "3", "4", "5", "6"]}}/>
+                            }
+                            
                         </div>
                     </div>
             </div>
