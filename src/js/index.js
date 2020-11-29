@@ -27,6 +27,7 @@ const App = () => {
     const [init, setInit] = React.useState(false)
     const [storedTasks, setStoredTasks] = React.useState([])
     const [screen, setScreen] = React.useState('MainScreen')
+    const [taskToEdit, setTaskToEdit] = React.useState({})
     
     async function initialise() {
         //await clearAll()
@@ -38,19 +39,13 @@ const App = () => {
         
       }
 
-        {/*}
-        <EditScreen task={{title:"something", id: 1, completed: false, date:false, time: false, subTasks: []}}/>
-        
-        */}
-
-
     if (init) {
         
         switch (screen) {
             case "MainScreen":
-                return <MainScreen storedTasks={GLOBAL_storedTasks} setScreen={setScreen}/>
+                return <MainScreen storedTasks={GLOBAL_storedTasks} setScreen={setScreen} setTaskToEdit={setTaskToEdit}/>
             case "EditScreen":
-                return <EditScreen task={{title:"something", id: 1, completed: false, date:false, time: false, subTasks: []}}
+                return <EditScreen task={taskToEdit}
                                    setScreen={setScreen}/>
         }
               

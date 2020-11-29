@@ -88,7 +88,7 @@ const getAllTasks = async () => {
   
   
 
-function MainScreen({window, storedTasks, setScreen}) {
+function MainScreen({window, storedTasks, setScreen, setTaskToEdit}) {
     //testAds()  
     //setTimeout(()=>{console.log("timed out")}, 400)  
     //console.log("stored tasks ", storedTasks)
@@ -125,16 +125,16 @@ function MainScreen({window, storedTasks, setScreen}) {
     //console.log("tasklist", taskList)a
 
     function scheduleToString(schedule) {
-        switch(schedule) {
-            case 0:
+        switch(schedule.type) {
+            case '0':
                 return "Weekday";
-            case 1:
+            case '1':
                 return "weekend";
             default:
                 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
                 let str = `To do on: `
-                schedule.forEach(d => str += days[parseInt(d)] + ' ')
-                return str
+                schedule.days.forEach(d => str += days[parseInt(d)] + ' ')
+                return str;
         }
     }
 
@@ -175,7 +175,7 @@ function MainScreen({window, storedTasks, setScreen}) {
     const EditTaskdiv = ({task}) => {
         return(
             <div>
-                <div style={{margin: '5px'}} className={styles.darkButton} onClick={()=>setScreen('EditScreen')}>
+                <div style={{margin: '5px'}} className={styles.darkButton} onClick={()=>{setTaskToEdit(task), setScreen('EditScreen')}}>
                     Edit Screen
                 </div>
                 <div className={styles.darkButton} onClick={()=>deleteTask(task)}>
@@ -213,7 +213,7 @@ function MainScreen({window, storedTasks, setScreen}) {
         }*/
         const subTasks = item.subTasks
         console.log(subTasks)
-        if (subTasks != []) {
+        if (subTasks && subTasks != []) {
             return subTasks.map((subtask, key) => {
                 <SubTask item={subtask} key={key}/>
             })
@@ -435,7 +435,7 @@ function MainScreen({window, storedTasks, setScreen}) {
                         <div className={styles.taskBox}>
                             
                             {
-                            /*
+                            
                             taskList.map((task, key) => {
                                 return (<Task 
                                             key={key}
@@ -445,11 +445,11 @@ function MainScreen({window, storedTasks, setScreen}) {
                                                         })()}
                                             item={task}/>)
                             })
-                            */
+                            
                             }
-                            {
+                            {/*
                             <Task item={{title:"test schedule", subTasks: [], completed: false, schedule: ["0", "1", "2", "3", "4", "5", "6"]}}/>
-                            }
+                            */}
                             
                         </div>
                     </div>

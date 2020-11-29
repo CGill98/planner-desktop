@@ -18,6 +18,7 @@ const storage = {
             referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         }).then(data => data) 
           .then(data => data.json())
+          .catch(e => console.log(e))
     },
     setItem: (key, data) => {
         const item = JSON.stringify({key: key, data: data})
@@ -33,6 +34,8 @@ const storage = {
             redirect: 'follow', // manual, *follow, error
             referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         }) 
+        .catch(e => console.log(e))
+
     },
     removeItem: (key) => {
         console.log("remove item called")
@@ -49,6 +52,8 @@ const storage = {
             redirect: 'follow', // manual, *follow, error
             referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         }).then(res => res)
+        .catch(e => console.log(e))
+
     },
     getAllData: () => {
         console.log("get all data called")
@@ -65,6 +70,8 @@ const storage = {
             referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         }).then(data => data) 
           .then(data => data.json())
+          .catch(e => console.log(e))
+
     }
 }
 
@@ -165,11 +172,12 @@ const clearTask = async (id) => {
                 setStartID(NaN)
             }
         }  
-        
+        console.log(`endID ${endID}`)
         if (id == endID) { //change endID
             console.log("endID changing")
-            for (let i = GLOBAL_tasks.length; 0 <= i; i--) {
-                let task = GLOBAL_tasks[i].id
+            for (let i = GLOBAL_tasks.length - 1; 0 <= i; i--) {
+                let task = GLOBAL_tasks[i]
+
                 console.log(task)
                 if (task !== null) {
                     console.log(task)

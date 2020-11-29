@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import styles from '../styles/App.module.css'
+import {updateTask} from '../storage/storage'
 
 const makeChanges = (task, changes) => {
     const changedTask = {...task, ...changes}
+    updateTask(changedTask);
+
     console.log(changedTask)
 } 
 function timeToString(time) {

@@ -1,1 +1,1 @@
-{"startID":"1","endID":"5","tasks":{"@task:1":{"id":1,"title":"task 1","subTasks":[],"date":false,"time":false,"completed":false},"@task:5":{"id":5,"title":"example","subTasks":[],"date":"1998-12-05","time":"12:12"}}}
+{"startID":"1","endID":"1","tasks":{"@task:1":{"id":1,"title":"read plato","subTasks":[],"date":false,"time":false,"schedule":{"type":"2","days":["0","2","4"]},"completed":false}}}
